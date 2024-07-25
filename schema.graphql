@@ -5,9 +5,16 @@ type User @entity {
   positions: [Position!]! @derivedFrom(field: "user")
 }
 
+type Asset @entity {
+  id: Bytes!
+  symbol: String!
+  decimals: BigInt!
+}
+
 type Market @entity {
   id: Bytes!
   lltv: BigInt!
+  oracle: Oracle!
 
   lastTotalBorrowShares: BigInt!
   lastTotalSupplyShares: BigInt!
@@ -15,7 +22,18 @@ type Market @entity {
   lastTotalBorrowAssets: BigInt!
   lastUpdateTimestamp: BigInt!
 
+  loanToken: Asset!
+  collateralToken: Asset!
+
   positions: [Position!]! @derivedFrom(field: "market")
+}
+
+type Oracle @entity {
+    id: Bytes!
+    price: BigInt
+    lastPriceFetchTimestamp: BigInt!
+
+    markets: [Market!]! @derivedFrom(field: "oracle")
 }
 
 type Position @entity {
@@ -23,8 +41,10 @@ type Position @entity {
   market: Market!
   user: User!
   borrowShares: BigInt!
-  supplyShares: BigInt!
+  collateral: BigInt!
   lastUpdateTimestamp: BigInt!
 
-  lastLtv: BigInt!
+  lastBorrowAssets: BigInt!
+  lastPriceUsed: BigInt
+  lastLtv: BigDecimal!
 }
