@@ -28,6 +28,8 @@ export function handleAccrueInterest(event: AccrueInterest): void {
 		event.params.interest,
 	);
 	market.lastUpdateTimestamp = event.block.timestamp;
+
+	market.lastRate = event.params.prevBorrowRate;
 	market.save();
 }
 
@@ -63,10 +65,9 @@ export function handleBorrow(event: Borrow): void {
 export function handleCreateMarket(event: CreateMarket): void {
 	let market = new Market(event.params.id);
 	market.lltv = event.params.marketParams.lltv;
-	market.lastTotalSupplyAssets = BigInt.zero();
 	market.lastTotalBorrowAssets = BigInt.zero();
-	market.lastTotalSupplyAssets = BigInt.zero();
 	market.lastTotalBorrowAssets = BigInt.zero();
+	market.lastRate = BigInt.zero(); // the first interest accrual will set the rate
 
 	market.loanToken = getOrCreateAsset(event.params.marketParams.loanToken).id;
 	market.collateralToken = getOrCreateAsset(

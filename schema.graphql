@@ -15,10 +15,9 @@ type Market @entity {
   id: Bytes!
   lltv: BigInt!
   oracle: Oracle!
+  lastRate: BigInt!
 
   lastTotalBorrowShares: BigInt!
-  lastTotalSupplyShares: BigInt!
-  lastTotalSupplyAssets: BigInt!
   lastTotalBorrowAssets: BigInt!
   lastUpdateTimestamp: BigInt!
 
