@@ -58,7 +58,7 @@ export function handleBorrow(event: Borrow): void {
 	}
 	position.borrowShares = position.borrowShares.plus(event.params.shares);
 
-	// computeLtv(position);
+	computeLtv(position, event.block.timestamp);
 	position.save();
 }
 
@@ -112,7 +112,7 @@ export function handleLiquidate(event: Liquidate): void {
 	position.borrowShares = position.borrowShares.minus(totalBorrowSharesReduced);
 	position.collateral = position.collateral.minus(event.params.seizedAssets);
 
-	// computeLtv(position);
+	computeLtv(position, event.block.timestamp);
 	position.save();
 }
 
@@ -141,7 +141,7 @@ export function handleRepay(event: Repay): void {
 	}
 	position.borrowShares = position.borrowShares.minus(event.params.shares);
 
-	// computeLtv(position);
+	computeLtv(position, event.block.timestamp);
 	position.save();
 }
 
@@ -155,7 +155,7 @@ export function handleSupplyCollateral(event: SupplyCollateral): void {
 		return;
 	}
 	position.collateral = position.collateral.plus(event.params.assets);
-	// computeLtv(position);
+	computeLtv(position, event.block.timestamp);
 	position.save();
 }
 
@@ -170,6 +170,6 @@ export function handleWithdrawCollateral(event: WithdrawCollateral): void {
 	}
 
 	position.collateral = position.collateral.minus(event.params.assets);
-	computeLtv(position);
+	computeLtv(position, event.block.timestamp);
 	position.save();
 }
