@@ -1,6 +1,30 @@
-type ExampleEntity @entity {
+type User @entity {
   id: Bytes!
-  count: BigInt!
-  id: Bytes! # bytes32
-  prevBorrowRate: BigInt! # uint256
+  address: Bytes!
+
+  positions: [Position!]! @derivedFrom(field: "user")
+}
+
+type Market @entity {
+  id: Bytes!
+  lltv: BigInt!
+
+  lastTotalBorrowShares: BigInt!
+  lastTotalSupplyShares: BigInt!
+  lastTotalSupplyAssets: BigInt!
+  lastTotalBorrowAssets: BigInt!
+  lastUpdateTimestamp: BigInt!
+
+  positions: [Position!]! @derivedFrom(field: "market")
+}
+
+type Position @entity {
+  id: Bytes!
+  market: Market!
+  user: User!
+  borrowShares: BigInt!
+  supplyShares: BigInt!
+  lastUpdateTimestamp: BigInt!
+
+  lastLtv: BigInt!
 }
