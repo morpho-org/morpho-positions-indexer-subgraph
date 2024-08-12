@@ -31,7 +31,7 @@ function wTaylorCompounded(x: BigInt, n: BigInt): BigInt {
 		BigInt.fromI32(1e18 as i32).times(BigInt.fromI32(3 as i32)),
 	);
 
-	return x.plus(firstTerm).plus(secondTerm).plus(thirdTerm);
+	return firstTerm.plus(secondTerm).plus(thirdTerm);
 }
 
 // https://github.com/morpho-org/morpho-blue/blob/main/src/libraries/SharesMathLib.sol#L41
